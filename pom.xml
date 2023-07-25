@@ -10,9 +10,14 @@
     </parent>
     <groupId>io.github.dineshsolanki</groupId>
     <artifactId>TimeZoneInterceptor</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <name>TimeZoneInterceptor</name>
     <url>https://github.com/DineshSolanki/TimeZoneInterceptor</url>
+    <description>
+        this library offers a seamless solution for all your API requests that represent the timezone passed in the request header - 'X-TimeZone'.
+        so that you can always get the client's timezone by doing 'TimeZoneInterceptor.getTimeZone()',all out of the box .
+        What's more? The header name that it looks for can also be easily changed via property in application.properties/yml.
+    </description>
     <scm>
         <connection>scm:git:git://github.com/DineshSolanki/TimeZoneInterceptor.git</connection>
         <developerConnection>scm:git:ssh://github.com/DineshSolanki/TimeZoneInterceptor.git</developerConnection>
@@ -42,8 +47,6 @@
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-
-    <description>TimeZoneInterceptor</description>
     <properties>
         <java.version>11</java.version>
     </properties>
