@@ -2,6 +2,7 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.dineshsolanki/TimeZoneInterceptor)](https://search.maven.org/artifact/io.github.dineshsolanki/TimeZoneInterceptor)
 ![GitHub](https://img.shields.io/github/license/dineshsolanki/TimeZoneInterceptor)
+![Lines of code](https://sloc.xyz/github/DineshSolanki/TimeZoneInterceptor)
 
 ## Overview
 
