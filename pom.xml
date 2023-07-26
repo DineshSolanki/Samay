@@ -10,7 +10,7 @@
     </parent>
     <groupId>io.github.dineshsolanki</groupId>
     <artifactId>TimeZoneInterceptor</artifactId>
-    <version>1.0.1</version>
+    <version>2.0.0</version>
     <name>TimeZoneInterceptor</name>
     <url>https://github.com/DineshSolanki/TimeZoneInterceptor</url>
     <description>
