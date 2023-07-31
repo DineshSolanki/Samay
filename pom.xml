@@ -9,19 +9,19 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.github.dineshsolanki</groupId>
-    <artifactId>TimeZoneInterceptor</artifactId>
+    <artifactId>Samay</artifactId>
     <version>2.0.0</version>
-    <name>TimeZoneInterceptor</name>
-    <url>https://github.com/DineshSolanki/TimeZoneInterceptor</url>
+    <name>Samay</name>
+    <url>https://github.com/DineshSolanki/Samay</url>
     <description>
-        this library offers a seamless solution for all your API requests that represent the timezone passed in the request header - 'X-TimeZone'.
-        so that you can always get the client's timezone by doing 'TimeZoneInterceptor.getTimeZone()',all out of the box .
+        Samay (Formerly  TimeZoneInterceptor) library offers a seamless solution for all your API requests that represent the timezone passed in the request header - 'X-TimeZone'.
+        so that you can always get the client's timezone by doing 'Samay.getTimeZone()',all out of the box .
         What's more? The header name that it looks for can also be easily changed via property in application.properties/yml.
     </description>
     <scm>
-        <connection>scm:git:git://github.com/DineshSolanki/TimeZoneInterceptor.git</connection>
-        <developerConnection>scm:git:ssh://github.com/DineshSolanki/TimeZoneInterceptor.git</developerConnection>
-        <url>https://github.com/DineshSolanki/TimeZoneInterceptor</url>
+        <connection>scm:git:git://github.com/DineshSolanki/Samay.git</connection>
+        <developerConnection>scm:git:ssh://github.com/DineshSolanki/Samay.git</developerConnection>
+        <url>https://github.com/DineshSolanki/Samay</url>
     </scm>
     <licenses>
         <license>
