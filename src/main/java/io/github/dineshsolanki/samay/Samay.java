@@ -1,4 +1,4 @@
-package io.github.dineshsolanki.timezoneinterceptor;
+package io.github.dineshsolanki.samay;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +12,10 @@ import java.util.TimeZone;
 /**
  * A class that intercepts requests and sets the time zone for the current thread.
  */
-public class TimeZoneInterceptor  implements HandlerInterceptor {
+public class Samay implements HandlerInterceptor {
     private static final ThreadLocal<TimeZone> TIME_ZONE_THREAD_LOCAL = new ThreadLocal<>();
-    private final static Logger logger = LoggerFactory.getLogger(TimeZoneInterceptor.class);
-    @Value("${time-zone-interceptor.header-name:X-TimeZone}")
+    private final static Logger logger = LoggerFactory.getLogger(Samay.class);
+    @Value("${samay.header-name:X-TimeZone}")
     private String timeZoneHeaderName;
 
     /**
@@ -29,14 +29,14 @@ public class TimeZoneInterceptor  implements HandlerInterceptor {
      */ //Tests won't work without explicitly setting the header name
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        logger.info("TimeZoneInterceptor:: Inside preHandle");
+        logger.info("Samay:: Inside preHandle");
         String timeZoneHeader = request.getHeader(timeZoneHeaderName);
         if (timeZoneHeader != null) {
-            logger.info("TimeZoneInterceptor:: found header {}", timeZoneHeader);
+            logger.info("Samay:: found header {}", timeZoneHeader);
             TimeZone timeZone = TimeZone.getTimeZone(timeZoneHeader);
             TIME_ZONE_THREAD_LOCAL.set(timeZone);
         } else {
-            logger.info("TimeZoneInterceptor:: header not found, setting default time zone");
+            logger.info("Samay:: header not found, setting default time zone");
             TIME_ZONE_THREAD_LOCAL.set(TimeZone.getDefault());
         }
         return HandlerInterceptor.super.preHandle(request, response, handler);
@@ -54,7 +54,7 @@ public class TimeZoneInterceptor  implements HandlerInterceptor {
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        logger.info("TimeZoneInterceptor:: Inside afterCompletion");
+        logger.info("Samay:: Inside afterCompletion");
         TIME_ZONE_THREAD_LOCAL.remove();
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
