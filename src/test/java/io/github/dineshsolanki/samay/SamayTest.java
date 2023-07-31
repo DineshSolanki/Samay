@@ -1,7 +1,6 @@
-package io.github.dineshsolanki.timezoneinterceptor;
+package io.github.dineshsolanki.samay;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -12,9 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
-class TimeZoneInterceptorTest {
+class SamayTest {
 
     @Mock
     private HttpServletRequest request;
@@ -26,7 +24,7 @@ class TimeZoneInterceptorTest {
     private HandlerExecutionChain handler;
 
     @InjectMocks
-    private TimeZoneInterceptor interceptor;
+    private Samay interceptor;
 
     @BeforeEach
     void setUp() {
@@ -34,21 +32,21 @@ class TimeZoneInterceptorTest {
     }
 
 //    @Test
-//    void testTimeZoneInterceptor_DefaultHeader() throws Exception {
+//    void testSamay_DefaultHeader() throws Exception {
 //        when(request.getHeader("X-TimeZone")).thenReturn("America/New_York");
 //
 //        boolean result = interceptor.preHandle(request, response, handler);
 //
 //        assertTrue(result);
-//        assertEquals("America/New_York", TimeZoneInterceptor.getTimeZone().getID());
+//        assertEquals("America/New_York", Samay.getTimeZone().getID());
 //    }
 //    
 //    @Test
-//    void testTimeZoneInterceptor_NoHeader() throws Exception {
+//    void testSamay_NoHeader() throws Exception {
 //        boolean result = interceptor.preHandle(request, response, handler);
 //
 //        assertTrue(result);
-//        assertEquals("GMT", TimeZoneInterceptor.getTimeZone().getID()); // Default to GMT if header not present
+//        assertEquals("GMT", Samay.getTimeZone().getID()); // Default to GMT if header not present
 //    }
 
     // Add more tests as needed to cover different scenarios and edge cases

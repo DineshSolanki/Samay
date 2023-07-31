@@ -1,12 +1,12 @@
-# 🕒 TimeZoneInterceptor
+# 🕒 Samay (Formerly  TimeZoneInterceptor)
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.dineshsolanki/TimeZoneInterceptor)](https://search.maven.org/artifact/io.github.dineshsolanki/TimeZoneInterceptor)
-![GitHub](https://img.shields.io/github/license/dineshsolanki/TimeZoneInterceptor)
-![Lines of code](https://sloc.xyz/github/DineshSolanki/TimeZoneInterceptor)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.dineshsolanki/Samay)](https://search.maven.org/artifact/io.github.dineshsolanki/Samay)
+![GitHub](https://img.shields.io/github/license/dineshsolanki/Samay)
+![Lines of code](https://sloc.xyz/github/DineshSolanki/Samay)
 
 ## Overview
 
-🌐 TimeZoneInterceptor is a Java library for Spring Boot that provides automatic handling of timezone information in incoming HTTP requests. It allows you to extract and store the timezone from a custom header, making it easily accessible in your application's controller or service methods.
+🌐 Samay (Formerly  TimeZoneInterceptor) is a Java library for Spring Boot that provides automatic handling of timezone information in incoming HTTP requests. It allows you to extract and store the timezone from a custom header, making it easily accessible in your application's controller or service methods.
 
 ## Features
 
@@ -17,23 +17,23 @@
 
 ## Installation
 
-Add the following dependency to your project's `pom.xml` to use TimeZoneInterceptor:
+Add the following dependency to your project's `pom.xml` to use Samay:
 
 ```xml
 <dependency>
     <groupId>io.github.dineshsolanki</groupId>
-    <artifactId>TimeZoneInterceptor</artifactId>
+    <artifactId>Samay</artifactId>
     <version>RELEASE</version>
 </dependency>
 ```
 
-TimeZoneInterceptor is available on Maven Central.
+Samay (Formerly  TimeZoneInterceptor) is available on Maven Central.
 
 ## Usage
 
 ### 1. Configuration
 
-By default, TimeZoneInterceptor expects the timezone information to be provided in the `X-TimeZone` header of incoming requests. You can customize the header name by adding the following property to your `application.properties`:
+By default, Samay expects the timezone information to be provided in the `X-TimeZone` header of incoming requests. You can customize the header name by adding the following property to your `application.properties`:
 
 ```properties
 time-zone-interceptor.header-name=Your-Custom-TimeZone-Header
@@ -41,17 +41,17 @@ time-zone-interceptor.header-name=Your-Custom-TimeZone-Header
 
 ### 2. Accessing the Timezone
 
-In your Spring Boot application's controller or service methods, you can access the timezone information using the `TimeZoneInterceptor.getTimeZone()` method:
+In your Spring Boot application's controller or service methods, you can access the timezone information using the `Samay.getTimeZone()` method:
 
 ```java
-import io.github.dineshsolanki.TimeZoneInterceptor;
+import io.github.dineshsolanki.Samay;
 
 @RestController
 public class YourController {
 
     @GetMapping("/your-endpoint")
     public ResponseEntity<String> yourEndpoint() {
-        TimeZone timeZone = TimeZoneInterceptor.getTimeZone();
+        TimeZone timeZone = Samay.getTimeZone();
         // Your logic using the timeZone information
         return ResponseEntity.ok("Endpoint executed with timezone: " + timeZone.getID());
     }
@@ -60,7 +60,7 @@ public class YourController {
 
 ### 3. Spring Boot Auto-Configuration (Optional)
 
-TimeZoneInterceptor automatically registers the interceptor in Spring Boot applications using Spring Boot's auto-configuration feature. You don't need to explicitly configure the interceptor.
+Samay automatically registers the interceptor in Spring Boot applications using Spring Boot's auto-configuration feature. You don't need to explicitly configure the interceptor.
 
 ### 4. Interceptor Removal
 
@@ -68,7 +68,7 @@ The library automatically cleans up the `ThreadLocal` storage after the request 
 
 ## License
 
-TimeZoneInterceptor is distributed under the GPL-3 License. See [LICENSE](https://github.com/DineshSolanki/TimeZoneInterceptor/blob/master/LICENSE) for more information.
+Samay (Formerly  TimeZoneInterceptor) is distributed under the GPL-3 License. See [LICENSE](https://github.com/DineshSolanki/TimeZoneInterceptor/blob/master/LICENSE) for more information.
 
 ## Contributions
 
@@ -87,13 +87,13 @@ mvn clean install
 This will build and install the library into your local Maven repository.
 
 ```
-git clone https://github.com/DineshSolanki/TimeZoneInterceptor.git
-cd TimeZoneInterceptor
+git clone https://github.com/DineshSolanki/Samay.git
+cd Samay
 mvn clean install
 ```
 ---
-TimeZoneInterceptor
+Samay
 ---
-Discover the world of effortless timezone retrieval with TimeZoneInterceptor! 🌏 Simplify your Spring Boot applications and say goodbye to timezone-related headaches. Let TimeZoneInterceptor take care of the heavy lifting, so you can focus on creating amazing applications. Give it a try and see the difference today! 🚀
+Discover the world of effortless timezone retrieval with Samay (Formerly  TimeZoneInterceptor)! 🌏 Simplify your Spring Boot applications and say goodbye to timezone-related headaches. Let Samay take care of the heavy lifting, so you can focus on creating amazing applications. Give it a try and see the difference today! 🚀
 
-For any queries, support, or discussions, don't hesitate to join our vibrant community! 🎉 We look forward to having you onboard! Happy coding! 👨‍💻👩‍💻
+For any queries, support, or discussions, don't hesitate to join our vibrant community! 🎉 We look forward to having you on board! Happy coding! 👨‍💻👩‍💻

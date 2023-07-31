@@ -1,4 +1,4 @@
-package io.github.dineshsolanki.timezoneinterceptor;
+package io.github.dineshsolanki.samay;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,18 +10,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @ConditionalOnClass(WebMvcConfigurer.class)
-public class TimeZoneInterceptorAutoConfiguration {
-    private final static Logger logger = LoggerFactory.getLogger(TimeZoneInterceptor.class);
+public class SamayAutoConfiguration {
+    private final static Logger logger = LoggerFactory.getLogger(Samay.class);
     @Bean
-    public TimeZoneInterceptor timeZoneInterceptor() {
-        return new TimeZoneInterceptor();
+    public Samay timeZoneInterceptor() {
+        return new Samay();
     }
 
     @Configuration
     public class TimeZoneInterceptorConfig implements WebMvcConfigurer {
         @Override
         public void addInterceptors(InterceptorRegistry registry) {
-            logger.info("TimeZoneInterceptor is enabled");
+            logger.info("Samay is enabled");
             registry.addInterceptor(timeZoneInterceptor());
         }
     }
