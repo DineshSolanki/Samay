@@ -2,6 +2,30 @@
 
 This section explains how to use the main features of the Samay library in your Spring Boot application.
 
+### Installing Samay
+
+<tabs>
+  <tab title="Maven">
+
+```xml
+
+<dependency>
+    <groupId>io.github.dineshsolanki</groupId>
+    <artifactId>Samay</artifactId>
+    <version>RELEASE</version>
+</dependency>
+```
+
+  </tab>
+  <tab title="Gradle">
+
+```Gradle
+implementation 'io.github.dineshsolanki:Samay:RELEASE'
+```
+
+  </tab>
+</tabs>
+
 ## Timezone Extraction
 
 By default, Samay expects the timezone in a request header named `X-TimeZone`.
@@ -66,30 +90,6 @@ Samay will now check `My-Timezone-Header` instead of default `X-TimeZone`.
 > Changes to the header name require restarting the application for the new name to take effect.
 >
 {style="warning"}
-
-### Installing Samay
-
-<tabs>
-  <tab title="Maven">
-
-```xml
-
-<dependency>
-    <groupId>io.github.dineshsolanki</groupId>
-    <artifactId>Samay</artifactId>
-    <version>RELEASE</version>
-</dependency>
-```
-
-  </tab>
-  <tab title="Gradle">
-
-```Gradle
-implementation 'io.github.dineshsolanki:Samay:RELEASE'
-```
-
-  </tab>
-</tabs>
 
 ## Disable Auto Configuration
 
