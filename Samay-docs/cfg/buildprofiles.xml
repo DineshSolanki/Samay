@@ -8,5 +8,10 @@
             <noindex-content>false</noindex-content>
         </variables>
     </build-profile>
-
+    <footer>
+        <social type="linkedin" href="https://www.linkedin.com/in/dineshsolanki/"/>
+        <social type="blog" href="aprogrammers.wordpress.com/"/>
+        <link href="https://github.com/DineshSolanki/Samay/">See source code</link>
+        <link href="https://central.sonatype.com/artifact/io.github.dineshsolanki/Samay">Get on Maven</link>
+    </footer>
 </buildprofiles>

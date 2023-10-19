@@ -2,6 +2,7 @@
 
 Samay is a Java library that provides automatic timezone handling for Spring Boot applications. It allows easy extraction and usage of timezone information from HTTP requests.
 
+<video src="https://www.youtube.com/watch?v=-r0JQPdx9qo" mini-player="true"/>
 ## What is Samay?
 
 Samay is designed to simplify timezone handling in Spring Boot web applications. It intercepts incoming HTTP requests, extracts the timezone from a custom header, stores it in a ThreadLocal variable, and makes it available throughout the request lifecycle.
