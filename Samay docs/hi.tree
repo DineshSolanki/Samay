@@ -3,8 +3,9 @@
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
 
 <instance-profile id="hi"
-                 name="Help Instance"
-                 start-page="Using-Samay.md">
+                 name="Samay (Formerly TimeZoneInterceptor)"
+                 start-page="Overview.md"
+                is-library="true">
 
     <toc-element topic="Overview.md"/>
     <toc-element topic="Using-Samay.md"/>

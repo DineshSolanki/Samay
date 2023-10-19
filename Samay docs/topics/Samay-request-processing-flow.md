@@ -6,7 +6,7 @@ sequenceDiagram
     participant Samay
     participant App
 
-    Client->>Samay: POST /endpoint
+    Client->>Samay: /endpoint
     alt timezone header present
         Samay->>Samay: Extract timezone
         Samay->>Samay: Store in ThreadLocal

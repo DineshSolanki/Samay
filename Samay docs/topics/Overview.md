@@ -18,10 +18,11 @@ Samay provides a cleaner and more automated way to handle time zones.
 
 ## Glossary
 
-**Request Interception** - Process of intercepting an HTTP request before it reaches the target controller. Useful for cross-cutting concerns like logging, security, etc.
+Request Interception
+: Process of intercepting an HTTP request before it reaches the target controller. Useful for cross-cutting concerns like logging, security, etc.
 
-**ThreadLocal** — A variable that provides thread-level isolation. Stores different values per thread. Used to propagate context across layers.
+ThreadLocal
+: A variable that provides thread-level isolation. Stores different values per thread. Used to propagate context across layers.
 
-**Context Propagation** - Passing request-specific data like user ID, timezone, etc across application layers to avoid plumbing everywhere.
-
-Let me know if you would like me to expand or modify this overview section further.
+Context Propagation
+: Passing request-specific data like user ID, timezone, etc across application layers to avoid plumbing everywhere.
