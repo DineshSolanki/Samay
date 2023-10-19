@@ -25,4 +25,4 @@ ThreadLocal
 : A variable that provides thread-level isolation. Stores different values per thread. Used to propagate context across layers.
 
 Context Propagation
-: Passing request-specific data like user ID, timezone, etc across application layers to avoid plumbing everywhere.
+: Passing request-specific data like user ID, timezone, etc. across application layers to avoid plumbing everywhere.
