@@ -13,10 +13,16 @@ import java.util.TimeZone;
  * A class that intercepts requests and sets the time zone for the current thread.
  */
 public class Samay implements HandlerInterceptor {
-    private static final ThreadLocal<TimeZone> TIME_ZONE_THREAD_LOCAL = new ThreadLocal<>();
+    private static TimezoneContextHolder<TimeZone> TIME_ZONE_THREAD_LOCAL;
+
     private final static Logger logger = LoggerFactory.getLogger(Samay.class);
+
     @Value("${samay.header-name:X-TimeZone}")
     private String timeZoneHeaderName;
+
+    public Samay(boolean useInheritable) {
+        TIME_ZONE_THREAD_LOCAL = new TimezoneContextHolder<>(useInheritable);
+    }
 
     /**
      * Sets the time zone for the current thread based on the value of the "timeZoneHeaderName" header in the HttpServletRequest object.
@@ -34,10 +40,10 @@ public class Samay implements HandlerInterceptor {
         if (timeZoneHeader != null) {
             logger.info("Samay:: found header {}", timeZoneHeader);
             TimeZone timeZone = TimeZone.getTimeZone(timeZoneHeader);
-            TIME_ZONE_THREAD_LOCAL.set(timeZone);
+            TIME_ZONE_THREAD_LOCAL.setTimezone(timeZone);
         } else {
             logger.info("Samay:: header not found, setting default time zone");
-            TIME_ZONE_THREAD_LOCAL.set(TimeZone.getDefault());
+            TIME_ZONE_THREAD_LOCAL.setTimezone(TimeZone.getDefault());
         }
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
@@ -55,7 +61,7 @@ public class Samay implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         logger.info("Samay:: Inside afterCompletion");
-        TIME_ZONE_THREAD_LOCAL.remove();
+        TIME_ZONE_THREAD_LOCAL.clear();
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
     
@@ -65,6 +71,6 @@ public class Samay implements HandlerInterceptor {
      * @return the time zone associated with the current thread
      */
     public static TimeZone getTimeZone() {
-        return TIME_ZONE_THREAD_LOCAL.get();
+        return TIME_ZONE_THREAD_LOCAL.getTimezone();
     }
 }
