@@ -81,16 +81,22 @@ The timezone is available via `Samay.getTimeZone()` anywhere downstream.
 To customize the request header name:
 
 ```Java
-time-zone-interceptor.header-name=My-Timezone-Header
+samay.header-name=My-Timezone-Header
 ```
 
 Samay will now check `My-Timezone-Header` instead of default `X-TimeZone`.
 
 
-> Changes to the header name require restarting the application for the new name to take effect.
+### Enabling thread inheritance {collapsible=true, default-state="expanded"}
+The default behavior of Samay is to not inherit the timezone information in child threads.
+You can enable thread inheritance by adding the following property to your `application.properties`:
+
+```
+samay.thread.inheritable=true
+```
+> Changes to the properties require restarting the application to take effect.
 >
 {style="warning"}
-
 ## Disable Auto Configuration
 
 To disable the auto configuration in Spring Boot:
