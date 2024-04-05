@@ -3,10 +3,11 @@ package io.github.dineshsolanki.samay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.TimeZone;
 
 /**
@@ -34,7 +35,7 @@ public class Samay implements HandlerInterceptor {
      * @throws Exception if an error occurs while processing the request.
      */ //Tests won't work without explicitly setting the header name
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request,@NonNull HttpServletResponse response,@NonNull Object handler) throws Exception {
         logger.info("Samay:: Inside preHandle");
         String timeZoneHeader = request.getHeader(timeZoneHeaderName);
         if (timeZoneHeader != null) {
@@ -59,7 +60,10 @@ public class Samay implements HandlerInterceptor {
      * @throws Exception if an error occurs while performing cleanup.
      */
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    public void afterCompletion(@NonNull HttpServletRequest request,
+                                @NonNull HttpServletResponse response,
+                                @NonNull Object handler,
+                                Exception ex) throws Exception {
         logger.info("Samay:: Inside afterCompletion");
         TIME_ZONE_THREAD_LOCAL.clear();
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
