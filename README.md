@@ -1,118 +1,174 @@
-# 🕒 Samay (Formerly TimeZoneInterceptor)
+# Samay v4.0
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.dineshsolanki/Samay)](https://search.maven.org/artifact/io.github.dineshsolanki/Samay)
 ![GitHub](https://img.shields.io/github/license/dineshsolanki/Samay)
-![Lines of code](https://sloc.xyz/github/DineshSolanki/Samay)
 
-## Overview
-
-🌐 Samay (Formerly TimeZoneInterceptor)
-is a Java library for Spring Boot that provides automatic handling of timezone information in incoming HTTP requests.
-It allows you to extract and store the timezone from a custom header,
-making it easily accessible in your application's controller or service methods.
+Production-grade timezone propagation for Spring Boot. Resolves the client's timezone once per request and makes it available everywhere — controllers, services, `@Async` threads, `CompletableFuture` chains, and JSON responses.
 
 ## Features
 
-- ✨ Automatic extraction of timezone information from a custom header in incoming requests.
-- 🧵 Stores the timezone information in a `ThreadLocal` variable, accessible within the same request thread.
-- 🚀 Seamless integration with Spring Boot applications.
-- ⚙️ Customizable header to change where it looks for timezone
+- **Pluggable resolution** — header, JWT claim, or fixed timezone
+- **Async propagation** — `TaskDecorator` for `@Async`, `SamayCompletableFuture`, and `SamayTaskExecutor`
+- **Convenience API** — `Samay.now()`, `Samay.atZone()`, `Samay.format()`, `Samay.startOfDay()`
+- **Jackson integration** — opt-in per-field timezone conversion with `@SamayFormat`
+- **JPA support** — `SamayZoneAttributeConverter` for UTC storage
 
-## Installation
+## Modules
 
-Add the following dependency to your project's `pom.xml` to use Samay:
+| Artifact | Purpose |
+|----------|---------|
+| `samay-core` | Interceptor, strategies, async support, convenience API, JPA converter |
+| `samay-jackson` | Jackson auto-configuration with `@SamayFormat` annotation |
+| `samay-spring-boot-starter` | Auto-configuration — add this to your project |
+
+## Quick Start
 
 ```xml
 <dependency>
     <groupId>io.github.dineshsolanki</groupId>
-    <artifactId>Samay</artifactId>
-    <version>RELEASE</version>
+    <artifactId>samay-spring-boot-starter</artifactId>
+    <version>4.0.0</version>
+</dependency>
+
+<!-- Optional: per-field JSON timezone conversion -->
+<dependency>
+    <groupId>io.github.dineshsolanki</groupId>
+    <artifactId>samay-jackson</artifactId>
+    <version>4.0.0</version>
 </dependency>
 ```
 
-Samay (Formerly TimeZoneInterceptor) is available on Maven Central.
+## Configuration
+
+```properties
+# ─── Core ────────────────────────────────────────────
+samay.enabled=true                    # disable to turn off all timezone handling
+samay.strategy=header                 # header | jwt | fixed
+samay.header-name=X-TimeZone          # HTTP header name (header strategy)
+samay.jwt-claim=timezone              # JWT claim name (jwt strategy)
+samay.fixed-zone=UTC                  # timezone ID (fixed strategy)
+samay.thread.inheritable=false        # use InheritableThreadLocal for child threads
+
+# ─── Jackson (optional) ─────────────────────────────
+samay.jackson.auto-convert=false      # set true to enable @SamayFormat conversion
+samay.jackson.global=false            # set true to convert ALL date fields (not just annotated)
+samay.jackson.date-time-pattern=yyyy-MM-dd'T'HH:mm:ssXXX
+```
 
 ## Usage
 
-### 1. Configuration
-
-By default, Samay expects the timezone information to be provided in the `X-TimeZone` header of incoming requests. You can customize the header name by adding the following property to your `application.properties`:
-
-```properties
-samay.header-name=Your-Custom-TimeZone-Header
-```
-#### 1.2. Enable thread inheritance
-The default behavior of Samay is to not inherit the timezone information in child threads.
-You can enable thread inheritance by adding the following property to your `application.properties`:
-
-```properties
-samay.thread.inheritable=true
-```
-
-### 2. Accessing the Timezone
-
-In your Spring Boot application's controller or service methods, you can access the timezone information using the `Samay.getTimeZone()` method:
+### 1. Access the client's timezone anywhere
 
 ```java
-import io.github.dineshsolanki.Samay;
-
 @RestController
-public class YourController {
+public class EventController {
 
-    @GetMapping("/your-endpoint")
-    public ResponseEntity<String> yourEndpoint() {
-        TimeZone timeZone = Samay.getTimeZone();
-        // Your logic using the timeZone information
-        return ResponseEntity.ok("Endpoint executed with timezone: " + timeZone.getID());
+    @GetMapping("/events")
+    public List<EventDto> getEvents() {
+        ZoneId userZone = Samay.getZoneId();
+        // use userZone for queries, formatting, etc.
     }
 }
 ```
 
-### 3. Spring Boot Auto-Configuration (Optional)
+### 2. Convenience timestamp API
 
-Samay automatically registers the interceptor in Spring Boot applications using Spring Boot's autoconfiguration feature.
-You don't need to explicitly configure the interceptor.
+```java
+ZonedDateTime userNow = Samay.now();
+ZonedDateTime display = Samay.atZone(entity.getCreatedAt());
+String formatted = Samay.format(entity.getCreatedAt(), "MMM dd, yyyy HH:mm");
 
-### 4. Interceptor Removal
+// Date-range queries against UTC-stored timestamps
+Instant start = Samay.startOfDay(selectedDate);
+Instant end = Samay.endOfDay(selectedDate);
+```
 
-The library automatically cleans up the `ThreadLocal` storage after the request is processed. You don't need to worry about manual cleanup.
+### 3. Async propagation
+
+```java
+// Option A: SamayTaskExecutor (pre-configured)
+@Bean
+public SamayTaskExecutor taskExecutor() {
+    SamayTaskExecutor executor = new SamayTaskExecutor();
+    executor.setCorePoolSize(4);
+    return executor;
+}
+
+// Option B: TaskDecorator with your own executor
+@Bean
+public TaskDecorator samayTaskDecorator() {
+    return new SamayTaskDecorator();
+}
+
+// Option C: CompletableFuture with timezone propagation
+SamayCompletableFuture.supplyAsync(() -> {
+    // Samay.getZoneId() works here — timezone propagated from caller
+    return service.findEvents(Samay.now());
+});
+```
+
+### 4. Per-field JSON conversion (samay-jackson)
+
+Annotate only the fields that should be timezone-converted:
+
+```java
+public class EventDto {
+    @SamayFormat
+    private Instant startTime;   // converted to user's timezone in JSON
+
+    private Instant createdAt;   // stays UTC
+}
+
+// application.properties
+// samay.jackson.auto-convert=true
+```
+
+Set `samay.jackson.global=true` to convert all date/time fields without annotating each one.
+
+### 5. JPA support
+
+```java
+// Entity — store as UTC
+@Column(name = "created_at")
+@Convert(converter = SamayZoneAttributeConverter.class)
+private Instant createdAt;
+
+// Display in user's timezone
+ZonedDateTime display = Samay.atZone(entity.getCreatedAt());
+
+// Date-range queries
+Instant start = Samay.startOfDay(selectedDate);
+Instant end = Samay.endOfDay(selectedDate);
+```
+
+### 6. JWT timezone resolution
+
+```properties
+samay.strategy=jwt
+samay.jwt-claim=timezone
+```
+
+Extracts timezone from the JWT payload (base64-decoded, no signature verification). Falls back to the `X-TimeZone` header if no JWT is present. **Requires `jackson-databind` on the classpath.**
+
+### 7. Fixed timezone
+
+```properties
+samay.strategy=fixed
+samay.fixed-zone=Asia/Kolkata
+```
+
+## Migration from v3.x
+
+| v3.x | v4.0 |
+|------|------|
+| `Samay.getTimeZone()` → `TimeZone` | `Samay.getZoneId()` → `ZoneId` |
+| Single jar | Multi-module: add `samay-spring-boot-starter` |
+| Header only | Header, JWT, or fixed strategy |
+| No async support | `SamayTaskDecorator`, `SamayCompletableFuture` |
+| No JSON support | `@SamayFormat` per-field conversion |
+
+`Samay.getTimeZone()` is deprecated but still works.
 
 ## License
 
-Samay (Formerly TimeZoneInterceptor) is distributed under the GPL-3 License.
-See [LICENSE](https://github.com/DineshSolanki/TimeZoneInterceptor/blob/master/LICENSE) for more information.
-
-## Contributions
-
-🤝 Contributions are welcome! If you encounter any issues, have suggestions, or want to contribute, please feel free to open an issue or submit a pull request.
-
----
-
-### For Library Developers
-
-To build the library from source, clone the repository and run:
-
-```shell
-mvn clean install
-```
-
-This will build and install the library into your local Maven repository.
-
-```shell
-git clone https://github.com/DineshSolanki/Samay.git
-cd Samay
-mvn clean install
-```
----
-Samay
----
-Discover the world of effortless timezone retrieval with Samay (Formerly TimeZoneInterceptor)!
-🌏 Simplify your Spring Boot applications and say goodbye to timezone-related headaches.
-Let Samay take care of the heavy lifting, so you can focus on creating amazing applications.
-Give it a try and see the difference today!
-🚀
-
-For any queries, support, or discussions, don't hesitate to join the community.!
-🎉 We look forward to having you on board!
-Happy coding!
-👨‍💻👩‍💻
+GPL-3.0 — see [LICENSE](LICENSE).
